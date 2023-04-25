@@ -7,6 +7,35 @@ import numpy as np
 random.seed(42)
 
 
+def run(nodes, edges, travellers, reps):
+    """Runs the program."""
+    graph = create_graph(nodes, edges)
+    traveller_goals = [create_goal(nodes, graph) for _ in range(travellers)]
+
+    for goal in traveller_goals:
+        # Find paths from start to end
+        # paths = graph.get_k_shortest_paths(7, 11, 20)  # Maybe not the best way to do this because it goes off a single iteration's random weights
+        paths = graph.get_all_simple_paths(goal['start'], goal['end'], cutoff=10)  # Cutoff=10 to not overwhelm the program
+
+        # Sort paths by number of nodes. Not necessary, but makes it easier to read.
+        paths.sort(key=len)
+
+    for rep in range(reps):
+        pass
+
+
+def create_goal(nodes, graph):
+    goal = {'start': random.randint(0, nodes - 1), 'end': random.randint(0, nodes - 1)}
+
+    while goal['start'] == goal['end']:
+        goal['end'] = random.randint(0, nodes - 1)  # Don't want start and end to be the same
+
+    if not graph.are_connected(goal['start'], goal['end']):
+        goal = create_goal(nodes, graph)  # Don't want start and end to be disconnected
+
+    return goal
+
+
 def create_graph(nodes, edges):
     graph = ig.Graph.Erdos_Renyi(n=nodes, m=edges, directed=False, loops=False)
 
@@ -15,30 +44,19 @@ def create_graph(nodes, edges):
 
     # Set edge weights
     weight_dists = [getRandomDist() for _ in range(edges)]
-    graph.es['weight'] = [max(0, weight_func()) for weight_func in weight_dists]  # Max 0 to prevent negative weights
+    graph.es['weight'] = [max(0, weight_func()) for weight_func in weight_dists]  # Uses 0 if weight is negative
 
+    plot_graph(graph)
+
+    return graph
+
+
+def plot_graph(graph):
+    """Plots the graph and saves it to a .png file and a .gml file."""
     max_weight = max(graph.es['weight'])
-    edge_widths = [w / max_weight * 3 for w in graph.es['weight']]  # Scale edge widths by max weight
+    scale = 3
+    edge_widths = [weight / max_weight * scale for weight in graph.es['weight']]  # Scale edge widths by max weight
 
-    # Find paths from node 0 to node 1
-    # paths = graph.get_k_shortest_paths(7, 11, 20)  # Maybe not the best way to do this because it goes off a single iteration's random weights
-    paths = graph.get_all_simple_paths(7, 11, cutoff=10)  # Cutoff is set to 10 to prevent overwhelming the program
-
-    # Sort paths by length
-    paths.sort(key=len)
-
-    # print(paths)
-
-    # Print cost of each path
-    for path in paths:
-        cost = 0
-        for i in range(len(path) - 1):
-            cost += graph.es.find(_source=path[i], _target=path[i + 1])['weight']
-        print(f'{len(path)} - Cost: {cost:.2f}')
-
-    print(f'# of paths: {len(paths)}')
-
-    # Plot the graph
     ig.config['plotting.backend'] = 'matplotlib'
     ig.plot(
         graph,

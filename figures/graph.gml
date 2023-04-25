@@ -1,4 +1,4 @@
-Creator "igraph version 0.10.4 Tue Apr 25 16:31:05 2023"
+Creator "igraph version 0.10.4 Tue Apr 25 17:33:43 2023"
 Version 1
 graph
 [
@@ -207,300 +207,300 @@ graph
   [
     source 4
     target 0
-    weight 123.355032685641
+    weight 59.4455170557903
   ]
   edge
   [
     source 11
     target 7
-    weight 16.7595991877182
+    weight 9.64101919812643
   ]
   edge
   [
     source 13
     target 0
-    weight 35.8416410921439
+    weight 27.5629263823009
   ]
   edge
   [
     source 14
     target 8
-    weight 40.2891456064086
+    weight 49.115477273991
   ]
   edge
   [
     source 14
     target 11
-    weight 56.3321974948026
+    weight 57.2949050937289
   ]
   edge
   [
     source 15
     target 2
-    weight 59.8555914415698
+    weight 55.8503107300222
   ]
   edge
   [
     source 15
     target 4
-    weight 72.7497186714446
+    weight 77.0374790252422
   ]
   edge
   [
     source 17
     target 10
-    weight 11.3233501384001
+    weight 11.3397061351593
   ]
   edge
   [
     source 18
     target 3
-    weight 53.5209318524839
+    weight 41.2216056012192
   ]
   edge
   [
     source 20
     target 17
-    weight 39.0587079483187
+    weight 70.9084359375838
   ]
   edge
   [
     source 21
     target 15
-    weight 76.4394891174138
+    weight 60.359590497355
   ]
   edge
   [
     source 22
     target 2
-    weight 57.0241289395784
+    weight 51.9800936224049
   ]
   edge
   [
     source 24
     target 7
-    weight 79.8367796604568
+    weight 75.5988767495076
   ]
   edge
   [
     source 25
     target 1
-    weight 29.7245608736173
+    weight 17.7537970048482
   ]
   edge
   [
     source 25
     target 5
-    weight 57.6165665954206
+    weight 50.6525597469606
   ]
   edge
   [
     source 25
     target 13
-    weight 55.1236999311077
+    weight 87.5911461358932
   ]
   edge
   [
     source 26
     target 8
-    weight 75.7216940267046
+    weight 68.4665000995474
   ]
   edge
   [
     source 26
     target 13
-    weight 44.7935966238613
+    weight 37.4005958820557
   ]
   edge
   [
     source 26
     target 16
-    weight 87.4155717803114
+    weight 65.6605314610078
   ]
   edge
   [
     source 29
     target 0
-    weight 16.2000198473661
+    weight 15.1959584055381
   ]
   edge
   [
     source 29
     target 13
-    weight 25.2903415660869
+    weight 16.9884701099731
   ]
   edge
   [
     source 30
     target 6
-    weight 63.6970298991212
+    weight 64.3665088555316
   ]
   edge
   [
     source 30
     target 7
-    weight 53.240238614846
+    weight 58.1388485573935
   ]
   edge
   [
     source 30
     target 20
-    weight 66.8512552259065
+    weight 67.467511795269
   ]
   edge
   [
     source 31
     target 18
-    weight 2.88104925188052
+    weight 0.535645232427806
   ]
   edge
   [
     source 32
     target 13
-    weight 14.3984666523972
+    weight 20.0117229350199
   ]
   edge
   [
     source 32
     target 15
-    weight 67.5992820238661
+    weight 77.0974595491498
   ]
   edge
   [
     source 32
     target 21
-    weight 83.1087696036553
+    weight 86.9851386735964
   ]
   edge
   [
     source 32
     target 24
-    weight 54.7153263009922
+    weight 49.0166465124583
   ]
   edge
   [
     source 32
     target 28
-    weight 0
+    weight 36.7476773440957
   ]
   edge
   [
     source 33
     target 4
-    weight 34.8916017136473
+    weight 40.9150196065863
   ]
   edge
   [
     source 33
     target 5
-    weight 40.9310137865986
+    weight 45.9175173088948
   ]
   edge
   [
     source 33
     target 18
-    weight 20.091320059518
+    weight 31.5695177037391
   ]
   edge
   [
     source 33
     target 26
-    weight 58.0103549608486
+    weight 82.3251000681254
   ]
   edge
   [
     source 33
     target 29
-    weight 62.2603536469268
+    weight 95.6719863392964
   ]
   edge
   [
     source 34
     target 3
-    weight 81.1094218726115
+    weight 83.0908214344324
   ]
   edge
   [
     source 34
     target 6
-    weight 5.2975073275609
+    weight 2.26436613384041
   ]
   edge
   [
     source 34
     target 15
-    weight 54.6985222217736
+    weight 58.6116436269578
   ]
   edge
   [
     source 34
     target 21
-    weight 41.7730923768317
+    weight 45.9443279337214
   ]
   edge
   [
     source 35
     target 34
-    weight 22.6878758553928
+    weight 14.6740670729637
   ]
   edge
   [
     source 36
     target 19
-    weight 57.9990078663412
+    weight 58.8460139774092
   ]
   edge
   [
     source 37
     target 0
-    weight 80.0476317618872
+    weight 79.6791376414331
   ]
   edge
   [
     source 37
     target 30
-    weight 86.4046152589103
+    weight 82.1819063248642
   ]
   edge
   [
     source 38
     target 9
-    weight 81.0792552767768
+    weight 78.7467283162416
   ]
   edge
   [
     source 38
     target 30
-    weight 33.0727861264332
+    weight 33.6461205910595
   ]
   edge
   [
     source 39
     target 2
-    weight 61.9943137546052
+    weight 60.4199216203167
   ]
   edge
   [
     source 39
     target 6
-    weight 86.360779396556
+    weight 81.6448139494534
   ]
   edge
   [
     source 39
     target 15
-    weight 89.2937441614925
+    weight 67.9261812825634
   ]
   edge
   [
     source 39
     target 24
-    weight 51.7456513979595
+    weight 60.5964110426336
   ]
   edge
   [
     source 39
     target 27
-    weight 51.8723451280395
+    weight 62.8777177514709
   ]
 ]
