@@ -8,7 +8,7 @@ def main():
         'nodes': 40,
         'edges': 50,
         'travellers': 5,
-        'reps': 250,
+        'reps': 150,
         'epsilon': 0.2,
         'traffic': 5
     }
