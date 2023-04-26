@@ -4,11 +4,16 @@ from . import pathfinder
 
 
 def main():
-    nodes = 40
-    edges = 50
-    travellers = 5
-    reps = 100
-    pathfinder.run(nodes, edges, travellers, reps)
+    kwargs = {
+        'nodes': 40,
+        'edges': 50,
+        'travellers': 5,
+        'reps': 250,
+        'epsilon': 0.2,
+        'traffic': 5
+    }
+
+    pathfinder.run(**kwargs)
 
 
 if __name__ == '__main__':
