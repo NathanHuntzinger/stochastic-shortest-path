@@ -38,9 +38,10 @@ I had to make a few implementation decisions to make this work:
 
 1. **If there are many paths, should they all be explored?**
 
-   I decided to sort the paths by nuumber of edges and only explore the shortest
-   25 paths. I did this because the number of paths grow exponentially with the
-   number of nodes and it was not feasible to explore all of them.
+   I decided to sort the paths by number of edges and only explore the first 25.
+   I did this because the number of paths grow exponentially with the number of
+   nodes and it was not feasible to explore all of them. 25 was chosen pretty
+   arbitrarily, but it seems to work well and is easier to visualize.
 
 2. **How do we decide which path to explore?**
 
@@ -50,8 +51,7 @@ I had to make a few implementation decisions to make this work:
    picks a random path from the list of paths. The epsilon value is decreased
    after each round so as to start exploiting more and more.
 
-3. **How do we implement this with the three solver groups and each choice directly
-   effecting the edge weights?**
+3. **How do we implement this with the three solver groups and each choice directly effecting the edge weights?**
 
    I decided to have each group of solvers make a choice and update the edge weights
    immedietly. Groups 1 and 2 could make choices at the same time, then group 3
@@ -61,4 +61,24 @@ I had to make a few implementation decisions to make this work:
    from group 1. Group 3 doesn't have a Q because it is just a normal shortest
    path algorithm.
 
-### Monte Carlo Markov Chain (MCMC)
+#### Results
+
+This method worked way better than I expected. I thought that groups 1 and 2 would
+have fairly similar results, but group 2 was able to find the shortest path much
+faster. I also realized that the way I implemented the epsilon adjustment caused
+group 2's epsilon to shrink twice as fast as group 1's. I decided to keep it because
+they were still able to find the shortest path faster and would continue to explore
+second hand through group 1.
+
+Group 3 was no surprise. It is basically just a metric to see how well the other
+groups are converging to the optimal path.
+
+Here are the results of 150 iterations:
+
+![Epsilon Greedy](./figures/epsilon_greedy_results.png)
+
+The running average graph is just so we can see the trends better. It is the average
+of the last 25 iterations. Usually group 2 converges with group 3 around iteration
+200 and group 1 converges between iteration 300 and 400.
+
+### Markov Chain Monte Carlo (MCMC)

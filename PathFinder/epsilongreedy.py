@@ -1,6 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
+from . import graphtools
+
 
 class Environment:
     def __init__(self, paths, graph):
@@ -57,6 +59,12 @@ def epsilon_greedy(reps, epsilon, traffic, graph, ids, paths, weight_dists):
     agent1 = {t_id: Agent(len(paths[t_id]), epsilon) for t_id in ids}
     agent2 = {t_id: Agent(len(paths[t_id]), epsilon) for t_id in ids}
 
+
+    if len(paths) > 25:
+        # Take 25 shortest paths by number of edges. This number is arbitrary but seems to work well.
+        paths.sort(key=len)
+        paths = paths[:25]
+
     # Main Game Loop
     for _ in range(reps):
         # Regenerate edge weights
@@ -77,17 +85,17 @@ def get_actions(traffic, graph, ids, paths, actions1, actions2, actions3, agent1
         # Group 1 (Only knows start, end, and results of past runs)
         action = agent1[t_id].get_action()
         actions1[t_id].append(action)
-        add_traffic_to_path(graph, paths[t_id][action], traffic)
+        graphtools.add_traffic_to_path(paths[t_id][action], graph, traffic)
 
         # Group 2 (Gets all information from group 1, basically update this Q from group 1)
         action = agent2[t_id].get_action()
         actions2[t_id].append(action)
-        add_traffic_to_path(graph, paths[t_id][action], traffic)
+        graphtools.add_traffic_to_path(paths[t_id][action], graph, traffic)
 
     # Group 3 (Knows edge weights, so it doesn't need to explore)
     for t_id in ids:
-        shortest_path = min(paths[t_id], key=lambda path: get_path_length(graph, path))
-        add_traffic_to_path(graph, shortest_path, traffic)
+        shortest_path = min(paths[t_id], key=lambda path: graphtools.get_path_length(path, graph))
+        graphtools.add_traffic_to_path(shortest_path, graph, traffic)
 
         action = paths[t_id].index(shortest_path)
         actions3[t_id].append(action)
@@ -99,13 +107,13 @@ def get_rewards(graph, ids, paths, actions1, rewards1, actions2, rewards2, actio
     """
     for t_id in ids:
         action = actions1[t_id][-1]
-        reward1 = get_path_length(graph, paths[t_id][action])
+        reward1 = graphtools.get_path_length(paths[t_id][action], graph)
 
         action = actions2[t_id][-1]
-        reward2 = get_path_length(graph, paths[t_id][action])
+        reward2 = graphtools.get_path_length(paths[t_id][action], graph)
 
         action = actions3[t_id][-1]
-        reward3 = get_path_length(graph, paths[t_id][action])
+        reward3 = graphtools.get_path_length(paths[t_id][action], graph)
 
         agent1[t_id].update(actions1[t_id][-1], reward1)
         agent2[t_id].update(actions2[t_id][-1], reward2)
@@ -114,27 +122,6 @@ def get_rewards(graph, ids, paths, actions1, rewards1, actions2, rewards2, actio
         rewards1[t_id].append(reward1)
         rewards2[t_id].append(reward2)
         rewards3[t_id].append(reward3)
-
-
-def add_traffic_to_path(graph, path, traffic):
-    """Adds traffic to the given path."""
-    pairs = consecutive_pairs(path)
-    for pair in pairs:
-        graph.es['weight'][graph.get_eid(pair[0], pair[1])] += traffic
-
-
-def consecutive_pairs(items):
-    return zip(items, items[1:])
-
-
-def get_path_length(graph, path):
-    """Gets the length of the given path."""
-    length = 0
-    pairs = consecutive_pairs(path)
-    for pair in pairs:
-        length += graph.es['weight'][graph.get_eid(pair[0], pair[1])]
-
-    return length
 
 
 def get_running_avg(data, window):
@@ -163,22 +150,23 @@ def plot_results(reps, ids, rewards1, rewards2, rewards3):
         avg_rewards2.append(np.mean([rewards2[t_id][rep] for t_id in ids]))
         avg_rewards3.append(np.mean([rewards3[t_id][rep] for t_id in ids]))
 
-    plt.subplot(1, 2, 1)
-    plt.plot(avg_rewards1, label='Group 1')
-    plt.plot(avg_rewards2, label='Group 2')
-    plt.plot(avg_rewards3, label='Group 3')
-    plt.title('Epsilon Greedy: Cost/Rep')
-    plt.xlabel('Repetition')
-    plt.ylabel('Cost')
-    plt.legend()
+    fig, ax = plt.subplots(1, 2, figsize=(10, 4))
 
-    plt.subplot(1, 2, 2)
-    plt.plot(get_running_avg(avg_rewards1, 25), label='Group 1')
-    plt.plot(get_running_avg(avg_rewards2, 25), label='Group 2')
-    plt.plot(get_running_avg(avg_rewards3, 25), label='Group 3')
-    plt.title('Epsilon Greedy: Running Average Cost/Rep')
-    plt.xlabel('Repetition')
-    plt.ylabel('Cost')
-    plt.legend()
+    ax[0].plot(avg_rewards1, label='Group 1')
+    ax[0].plot(avg_rewards2, label='Group 2')
+    ax[0].plot(avg_rewards3, label='Group 3')
+    ax[0].set_title('Epsilon Greedy: Cost/Rep')
+    ax[0].set_xlabel('Repetition')
+    ax[0].set_ylabel('Cost')
+    ax[0].legend()
 
-    plt.show()
+    ax[1].plot(get_running_avg(avg_rewards1, 25), label='Group 1')
+    ax[1].plot(get_running_avg(avg_rewards2, 25), label='Group 2')
+    ax[1].plot(get_running_avg(avg_rewards3, 25), label='Group 3')
+    ax[1].set_title('Epsilon Greedy: Running Average Cost/Rep')
+    ax[1].set_xlabel('Repetition')
+    ax[1].set_ylabel('Cost')
+    ax[1].legend()
+
+    plt.savefig('./figures/epsilon_greedy_results.png')
+    # plt.show()

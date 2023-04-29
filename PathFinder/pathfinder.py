@@ -6,6 +6,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from . import epsilongreedy
+from . import mcmc
 
 
 random.seed(42)
@@ -22,24 +23,22 @@ def run(nodes, edges, travellers, reps, epsilon, traffic):
 
     graph_layout = graph.layout_auto()  # Need this here so it doesn't change every time we plot
 
-    choices = {
-        'epsilon-greedy': {},
-        'mcmc': {},
-        'all-information': {}
-    }
+    # Epsilon Greedy Strategy
+    # epsilongreedy.epsilon_greedy(reps, epsilon, traffic, graph, ids, paths, weight_dists)
 
-    epsilongreedy.epsilon_greedy(reps, epsilon, traffic, graph, ids, paths, weight_dists)
+    # Markov Chain Monte Carlo (MCMC) Strategy
+    mcmc.mcmc(reps, traffic, graph, ids, paths, weight_dists)
+
 
 
 def get_paths(graph, goal):
-    """Get a shortened list of paths from start to end."""
-    goal = graph.get_all_simple_paths(goal['start'], goal['end'])
-    goal.sort(key=len)
+    """Get a list of paths from start to end. Does not include paths that pass
+    through the same vertex more than once.
 
-    if len(goal) > 25:
-        goal = goal[:25]
-
-    return goal
+    :param graph: The graph to find paths in.
+    :param goal: A dictionary with keys 'start' and 'end' with the node IDs
+    """
+    return graph.get_all_simple_paths(goal['start'], goal['end'])
 
 
 def create_goal(nodes, graph):
