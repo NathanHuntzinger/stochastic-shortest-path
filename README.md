@@ -61,7 +61,7 @@ I had to make a few implementation decisions to make this work:
    from group 1. Group 3 doesn't have a Q because it is just a normal shortest
    path algorithm.
 
-#### Results
+#### Epsilon Greedy Results
 
 This method worked way better than I expected. I thought that groups 1 and 2 would
 have fairly similar results, but group 2 was able to find the shortest path much
@@ -82,3 +82,44 @@ of the last 25 iterations. Usually group 2 converges with group 3 around iterati
 200 and group 1 converges between iteration 300 and 400.
 
 ### Markov Chain Monte Carlo (MCMC)
+
+This strategy was a little more difficult to implement. I still don't think I quite
+understand how one would ideally use an MCMC to solve this problem, but I think
+my approach does it well enough.
+
+The idea is that we have a probability distribution for each edge weight. We can
+then use the MCMC to sample from that distribution and see if the path is shorter
+than the current shortest path. If it is, then we update the edge weights to reflect
+the new path.
+
+I couldn't figure out how to permute through the paths in a way that would be
+efficient, so I decided to start with a complete list of all simple paths from
+the start to the end node. I then randomly select a path from that list and compute
+the acceptance probability. If the path is accepted, then the new path is set as
+the current shortest path and the edge weights are updated. If the path is rejected,
+then nothing happens.
+
+Group 1 starts with a random path from the list of paths. Group 2 starts with the
+shortest path from group 1. Group 3 is again just a metric to see how well the
+other groups are do compared to the optimal path.
+
+#### MCMC Results
+
+Sometimes this method works really well and sometimes it doesn't. If I raise the
+number of reps though, it almost always picks the optimal path. This makes sense because
+it has more oppurtunities to randomly stumble upon the optimal path. I think there
+may be enough vairation in path lengths that it can generally correctly pick the
+correct shortest path when comparing any two paths.
+
+I couldn't  get it to correctly plot the running average, but here are the end
+results of 150 iterations:
+
+![MCMC](./figures/mcmc_results.png)
+
+As you can see from this, Group 1 is usually the worst performing group. Group 2
+usually chooses either the same path as Group 1 or the same path as Group 3.
+Occasionally though, Group 2 will find it's own path between the two other groups.
+There are also several instances of all 3 groups choosing the same path.
+
+Overall, I am pleased with these results. This is definitely an interesting problem
+that I would love to explore more.
