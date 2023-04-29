@@ -41,7 +41,15 @@ class Agent:
             return np.random.choice(np.flatnonzero(self.Q == self.Q.min()))
 
 
-def epsilon_greedy(reps, epsilon, traffic, graph, ids, paths, weight_dists):
+def epsilon_greedy(reps, epsilon, traffic, graph, ids, all_paths, weight_dists):
+    # Take 25 shortest paths by number of edges. This number is arbitrary but seems to work well.
+    paths = all_paths.copy()
+
+    for t_id in ids:
+        if len(paths[t_id]) > 25:
+            paths[t_id].sort(key=len)
+            paths[t_id] = paths[t_id][:25]
+
     actions1 = {}
     rewards1 = {}
     actions2 = {}
@@ -58,12 +66,6 @@ def epsilon_greedy(reps, epsilon, traffic, graph, ids, paths, weight_dists):
 
     agent1 = {t_id: Agent(len(paths[t_id]), epsilon) for t_id in ids}
     agent2 = {t_id: Agent(len(paths[t_id]), epsilon) for t_id in ids}
-
-
-    if len(paths) > 25:
-        # Take 25 shortest paths by number of edges. This number is arbitrary but seems to work well.
-        paths.sort(key=len)
-        paths = paths[:25]
 
     # Main Game Loop
     for _ in range(reps):

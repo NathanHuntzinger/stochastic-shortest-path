@@ -9,7 +9,7 @@ from . import epsilongreedy
 from . import mcmc
 
 
-random.seed(42)
+# random.seed(42)
 
 
 def run(nodes, edges, travellers, reps, epsilon, traffic):
@@ -24,11 +24,14 @@ def run(nodes, edges, travellers, reps, epsilon, traffic):
     graph_layout = graph.layout_auto()  # Need this here so it doesn't change every time we plot
 
     # Epsilon Greedy Strategy
-    # epsilongreedy.epsilon_greedy(reps, epsilon, traffic, graph, ids, paths, weight_dists)
+    print('Starting Epsilon Greedy Strategy')
+    epsilongreedy.epsilon_greedy(reps, epsilon, traffic, graph, ids, paths, weight_dists)
+    print('Saved Epsilon Greedy plot to `figures/epsilon_greedy_results.png`\n')
 
     # Markov Chain Monte Carlo (MCMC) Strategy
+    print('Starting MCMC Strategy')
     mcmc.mcmc(reps, traffic, graph, ids, paths, weight_dists)
-
+    print('Saved MCMC plot to `figures/mcmc_results.png`')
 
 
 def get_paths(graph, goal):
